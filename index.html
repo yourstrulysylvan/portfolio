@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Statistics and Probability Portfolio</title>
+<meta name="description" content="A student portfolio for a 2-month Statistics and Probability course: lessons, worked examples, reflections and evidence for each topic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+<style>
+/* Layout: one long page. Hero is a graph-paper panel with a live normal curve, then About, a week-by-week course map, seven topic entries (notes left, worked example right), and a small calculator. */
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#101A2B; --muted:#55627A; --line:#D9DEE8; --grid:rgba(16,26,43,.06);
+  --accent:#2447D6; --accent-ink:#FFFFFF; --soft:#E8EDFC; --amber:#E0A100; --amber-soft:#FFF4D1; --ok:#1B7A4B;
+  --curve:#2447D6; --curve-fill:rgba(224,161,0,.35);
+  --display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --body:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D1320; --surface:#151D2E; --ink:#E9ECF3; --muted:#9AA6BC; --line:#27324A; --grid:rgba(233,236,243,.06);
+  --accent:#8BA6FF; --accent-ink:#0D1320; --soft:#1B2640; --amber:#F2BE3C; --amber-soft:#2E2A17; --ok:#5CC28A;
+  --curve:#8BA6FF; --curve-fill:rgba(242,190,60,.32); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0D1320; --surface:#151D2E; --ink:#E9ECF3; --muted:#9AA6BC; --line:#27324A; --grid:rgba(233,236,243,.06);
+  --accent:#8BA6FF; --accent-ink:#0D1320; --soft:#1B2640; --amber:#F2BE3C; --amber-soft:#2E2A17; --ok:#5CC28A;
+  --curve:#8BA6FF; --curve-fill:rgba(242,190,60,.32); color-scheme:dark;}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto}
+.eyebrow{font:500 12px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.ph{color:var(--muted);font-style:italic}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.bar-in{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;justify-content:space-between;padding-block:10px}
+.logo{font:800 17px var(--display);text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:9px}
+.logo i{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 16px var(--display);font-style:normal}
+.nav{display:flex;flex-wrap:wrap;gap:2px}
+.nav a{font:500 14px var(--display);text-decoration:none;color:var(--muted);padding:5px 11px;border-radius:999px}
+.nav a:hover{background:var(--soft);color:var(--accent)}
+
+/* hero */
+.hero{margin-top:28px;border:1px solid var(--line);border-radius:18px;background-color:var(--surface);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px;
+  padding:clamp(20px,5vw,48px) clamp(18px,4vw,44px) 0;overflow:hidden}
+.hero h1{font-size:clamp(44px,10vw,104px);font-weight:800;letter-spacing:-.03em;margin-top:10px}
+.hero h1 em{display:block;font:italic 600 .62em var(--body);letter-spacing:-.01em;color:var(--accent)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:20px;font-size:16px}
+.hero-meta b{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block}
+.hero canvas{display:block;width:100%;height:200px;margin-top:18px}
+@media (max-width:560px){.hero canvas{height:150px}}
+
+/* sections */
+section{margin-top:72px}
+.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-bottom:22px}
+.sec-h h2{font-size:clamp(28px,5vw,42px);letter-spacing:-.02em}
+.about{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px 48px;align-items:start}
+.about p.lead{font-size:clamp(19px,2.6vw,23px);line-height:1.5;text-wrap:pretty}
+.facts{display:grid;gap:12px;margin:0}
+.facts div{border-top:1px solid var(--line);padding-top:8px}
+.facts dt{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:2px 0 0;font-size:17px;overflow-wrap:anywhere}
+@media (max-width:760px){.about{grid-template-columns:1fr}}
+
+.members{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px;margin-top:24px}
+.member{display:flex;gap:12px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;min-width:0}
+.member i{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 16px var(--display);font-style:normal}
+.member div{min-width:0}
+.member b{font:700 17px/1.2 var(--display);display:block;overflow-wrap:anywhere}
+.member span{font:13px var(--mono);color:var(--muted)}
+
+/* stat strip */
+.strip{display:flex;flex-wrap:wrap;gap:10px 40px;margin:0 0 22px}
+.strip div{min-width:0}
+.strip b{font:800 36px var(--display);display:block;font-variant-numeric:tabular-nums}
+.strip span{font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* course map */
+.map-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.map{display:grid;grid-template-columns:minmax(150px,1.3fr) repeat(10,minmax(38px,1fr));min-width:640px;position:relative;font-family:var(--display)}
+.map .wk{font:500 12px var(--mono);color:var(--muted);text-align:center;padding:10px 0 8px;border-bottom:1px solid var(--line)}
+.map .lbl{padding:9px 12px;font-weight:600;font-size:14px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:baseline;min-width:0}
+.map .lbl b{font-weight:800;color:var(--accent);min-width:2.2ch}
+.map .lbl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map .cell{border-bottom:1px solid var(--line);border-left:1px solid var(--line);grid-row:auto}
+.map .span{align-self:center;margin:7px 3px;height:24px;border-radius:6px;background:var(--accent);color:var(--accent-ink);font:500 11px/24px var(--mono);padding-inline:8px;overflow:hidden;white-space:nowrap;z-index:1}
+.map .mid{grid-row:1/9;grid-column:8;background:var(--amber-soft);border-left:2px dashed var(--amber);border-right:2px dashed var(--amber);display:flex;align-items:center;justify-content:center;z-index:0}
+.map .mid span{writing-mode:vertical-rl;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+
+/* topic entries */
+.entry{border-top:2px solid var(--ink);padding-top:22px;margin-top:44px}
+.e-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:4px 18px}
+.roman{font:800 clamp(48px,9vw,84px)/0.9 var(--display);color:var(--accent);letter-spacing:-.03em;min-width:1.6ch}
+.e-head h3{font-size:clamp(24px,4vw,34px);letter-spacing:-.015em}
+.e-head .meta{font:400 13px var(--mono);color:var(--muted);margin-top:6px}
+.e-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:26px 44px;margin-top:22px}
+.e-grid>div{min-width:0}
+@media (max-width:860px){.e-grid{grid-template-columns:1fr}}
+.e-grid h4{font:500 12px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.e-grid h4:not(:first-child){margin-top:24px}
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.lessons li{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:3px 10px;font:500 14px var(--display);display:flex;gap:7px}
+.lessons li span{color:var(--accent);font-family:var(--mono);font-size:12px;margin-top:1px}
+.can{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.reflect{font-size:17px;text-wrap:pretty}
+.evid{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:16px}
+.evid li{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.evid li b{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);min-width:11ch}
+.evid li span{flex:1 1 240px;min-width:0}
+.note-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;position:relative;
+  background-image:repeating-linear-gradient(transparent 0 31px,var(--grid) 31px 32px)}
+.note-card .prob{font-weight:600;font-size:17px;margin-bottom:12px;text-wrap:pretty}
+.note-card ol{margin:0;padding-left:1.4em;display:grid;gap:8px;font-size:16.5px}
+.note-card code{font:400 14.5px var(--mono);background:var(--soft);padding:1px 6px;border-radius:5px;overflow-wrap:anywhere}
+.note-card .ans{margin-top:14px;padding:9px 12px;border-left:4px solid var(--amber);background:var(--amber-soft);font-weight:600;font-size:16.5px}
+.note-card .tbl{overflow-x:auto;margin:6px 0}
+.note-card table{border-collapse:collapse;font:13.5px var(--mono);font-variant-numeric:tabular-nums}
+.note-card th,.note-card td{border:1px solid var(--line);padding:3px 10px;text-align:right}
+.note-card th{background:var(--soft);font-weight:500}
+
+/* quick tool */
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3vw,28px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 40px}
+@media (max-width:760px){.tool{grid-template-columns:1fr}}
+.tool .form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tool label{display:grid;gap:4px;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tool input{width:100%;min-width:0;font:17px var(--mono);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px}
+.tool .res{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tool .res div{border:1px solid var(--line);border-radius:8px;padding:8px 11px;background:var(--bg)}
+.tool .res span{display:block;font:12px var(--mono);color:var(--muted)}
+.tool .res b{font:500 20px var(--mono);font-variant-numeric:tabular-nums}
+.tool .res .k{background:var(--soft);border-color:var(--accent)}
+.tool .res .k b{color:var(--accent)}
+.tool canvas{grid-column:1/-1;width:100%;height:170px;display:block}
+
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.skills span{font:500 14px var(--display);border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:4px 14px}
+.closing{font-size:clamp(19px,2.6vw,23px);line-height:1.5;max-width:60ch;text-wrap:pretty}
+
+footer{margin-top:80px;padding-block:28px 40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 30px;justify-content:space-between;font-size:15px;color:var(--muted)}
+footer b{color:var(--ink);font-family:var(--display)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-in">
+  <a class="logo" href="#top"><i>σ</i><span id="logo-name">Portfolio</span></a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#about">About</a><a href="#course">Course map</a><a href="#work">Topics</a><a href="#tool">Try it</a><a href="#wrapup">Wrap-up</a>
+  </nav>
+</div></div>
+
+<div class="wrap" id="top">
+  <header class="hero">
+    <div class="eyebrow" id="hero-eyebrow">Course portfolio · About 2 months</div>
+    <h1>Statistics <em>&amp; Probability</em></h1>
+    <div class="hero-meta">
+      <div><b>By</b><span id="hero-name"></span></div>
+      <div><b>Program</b><span id="hero-section"></span></div>
+      <div><b>School</b><span id="hero-school"></span></div>
+    </div>
+    <canvas id="hero-curve" aria-label="A normal curve with the middle 95 percent shaded"></canvas>
+  </header>
+
+  <section id="about">
+    <div class="sec-h"><h2>About us</h2><span class="eyebrow">Who made this</span></div>
+    <div class="about">
+      <div><p class="lead" id="about-text"></p><div class="members" id="members"></div></div>
+      <dl class="facts" id="facts"></dl>
+    </div>
+  </section>
+
+  <section id="course">
+    <div class="sec-h"><h2>The course at a glance</h2><span class="eyebrow">Seven topics over about 2 months</span></div>
+    <div class="strip">
+      <div><b>35</b><span>contact hours</span></div>
+      <div><b>7</b><span>topics</span></div>
+      <div><b>28</b><span>lessons</span></div>
+      <div><b>Wk 7</b><span>midterm exam</span></div>
+    </div>
+    <div class="map-scroll"><div class="map" id="map"></div></div>
+  </section>
+
+  <section id="work">
+    <div class="sec-h"><h2>Topic by topic</h2><span class="eyebrow">Notes, a worked example, a reflection, and evidence</span></div>
+    <div id="entries"></div>
+  </section>
+
+  <section id="tool">
+    <div class="sec-h"><h2>Try the Topic V example</h2><span class="eyebrow">z-score and normal area</span></div>
+    <div class="tool">
+      <div>
+        <p style="margin-bottom:14px">Change the numbers to see how a score converts to a z-score and how much of the distribution lies below or above it.</p>
+        <div class="form">
+          <label>Score x<input id="tl-x" type="number" step="any" value="85"></label>
+          <label>Mean μ<input id="tl-mu" type="number" step="any" value="75"></label>
+          <label>SD σ<input id="tl-sd" type="number" step="any" min="0" value="8"></label>
+        </div>
+      </div>
+      <div class="res" id="tl-out"></div>
+      <canvas id="tl-curve" aria-label="Normal curve with the area above the score shaded"></canvas>
+    </div>
+  </section>
+
+  <section id="wrapup">
+    <div class="sec-h"><h2>Looking back</h2><span class="eyebrow">What I take from the course</span></div>
+    <p class="closing" id="closing-text"></p>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <footer>
+    <div><b id="foot-name"></b><br><span id="foot-line"></span></div>
+  </footer>
+</div>
+<noscript><p style="padding:24px;font-family:sans-serif">This portfolio needs JavaScript turned on to show its content.</p></noscript>
+
+<script>
+/* =====================================================================
+   EDIT THIS PART. Everything you want to personalise is in PORTFOLIO.
+   Keep the quotes. Leave a value as '' to show a grey reminder instead.
+   ===================================================================== */
+const PORTFOLIO = {
+  members: [
+    { name: 'Christine Shielsie T. Guillermo', role: '' },   // role is optional, e.g. 'Lead developer'
+    { name: 'Eloisa D. Lomboy', role: '' }
+  ],
+  section: 'BSCS 3rd Year',
+  school: 'Northwestern University',
+  about: 'We are third-year Computer Science students. This portfolio collects what we learned in Statistics and Probability: the lessons, a solved example for every topic, and our own reflections.',
+  closing: "Across about two months we moved from describing data to drawing conclusions from it. The biggest lesson was that every method answers a question about uncertainty, and that checking an answer against the problem's context matters as much as the calculation. As Computer Science students, we expect to use these ideas whenever we test, compare or predict with data.",
+  topics: {
+    1: { reflection: "Statistics started to make sense once we saw that every method begins with how the data was collected. Telling discrete from continuous variables and matching a sampling technique to a situation was the tricky part, and practicing with real class examples helped us sort them out." },
+    2: { reflection: "Computing the mean, median and mode was quick, but understanding what the standard deviation means took more work. Once we saw it as the typical distance from the mean, interpreting a result became easier than just calculating it." },
+    3: { reflection: "Probability problems got easier after we learned to decide first whether order matters, then whether events are independent. Counting with permutations and combinations needed the most practice, and checking an answer two different ways built our confidence." },
+    4: { reflection: "This topic showed us that a distribution is a full picture of every possible outcome, not just one answer. Writing out the binomial formula step by step helped us stop mixing up n, p and x." },
+    5: { reflection: "The normal distribution tied the earlier topics together. Converting a score to a z-score and reading the Z-table felt mechanical at first, but drawing the shaded curve before calculating made it clear which area we were looking for." },
+    6: { reflection: "The Central Limit Theorem surprised us the most: even a skewed population gives bell-shaped sample means once the sample is large enough. Remembering that the standard error uses the square root of n explained why bigger samples give more reliable averages." },
+    7: { reflection: "Hypothesis testing was the most abstract topic, and it clicked when we linked it to confidence intervals: if the claimed mean sits outside the interval, the test rejects it. Learning to write the conclusion in plain words, not only \u201Creject H\u2080\u201D, felt like the real skill." }
+  }
+};
+/* Evidence of learning for each assessment is written in the EVIDENCE list below. */
+const EVIDENCE = {
+  1: [['Quiz','Classified variables by type and level of measurement, and matched each situation to the right sampling technique.'],
+      ['Seatwork','Built frequency tables and histograms from raw scores and explained what the shape showed.']],
+  2: [['Problem Set','Computed the mean, median, mode, range, variance and standard deviation by hand, showing every step.'],
+      ['Quiz','Told apart the sample and population formulas and explained a result in a sentence.']],
+  3: [['Quiz','Applied the addition and multiplication rules, including conditional and independent events.'],
+      ['Seatwork','Solved counting problems with permutations and combinations and checked answers a second way.']],
+  4: [['Long Quiz','Distinguished discrete from continuous random variables, found the mean and variance of a distribution, and solved binomial and uniform problems.']],
+  5: [['Quiz','Standardized scores and found areas below, above and between values using the Z-table.'],
+      ['Seatwork','Solved word problems on percentiles and cutoff scores by working backward from a z-score.']],
+  6: [['Quiz','Explained sampling distributions and computed the standard error of the mean.'],
+      ['Worksheet','Used the Central Limit Theorem to find probabilities for sample means.']],
+  7: [['Problem Set','Built confidence intervals, found margins of error, and ran one-tailed and two-tailed tests with p-values and decision rules.'],
+      ['Long Quiz','Stated null and alternative hypotheses, chose a significance level, and interpreted the decision in context.']]
+};
+/* ===================================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = (x, d = 4) => { if (!isFinite(x)) return '—'; const r = Number(x.toFixed(d)); return Object.is(r, -0) ? '0' : String(r); };
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function Phi(x){ if (x < -8) return 0; if (x > 8) return 1; let s = x, t = x, i = 3, p; do { p = s; t *= x * x / i; s += t; i += 2; } while (s !== p); return 0.5 + s * Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); }
+
+const TOPICS = [
+ { id:1, roman:'I',   title:'Introduction to Statistics', a:1, b:2, hours:7,
+   subs:['Nature of Statistics','Types of Data and Variables','Sampling Techniques','Data Presentation'],
+   outcomes:['Identify the basic concepts of statistics.','Organize and present data appropriately.'],
+   assess:['Quiz','Seatwork'],
+   ex:{ prob:'Twelve students took a 10-item quiz. Scores: 7, 9, 6, 10, 8, 9, 7, 8, 9, 10, 6, 9. Classify the variable and organize the scores in a frequency table.',
+        steps:['The variable is the number of correct answers. It is counted in whole numbers, so it is a <b>discrete quantitative</b> variable.',
+               'List each score and tally: 6 appears 2 times, 7 twice, 8 twice, 9 four times, 10 twice.',
+               'Relative frequency = f ÷ n, with n = 12. For score 9: <code>4 ÷ 12 = 33.3%</code>.'],
+        table:{h:['Score','f','Relative'],r:[['6','2','16.7%'],['7','2','16.7%'],['8','2','16.7%'],['9','4','33.3%'],['10','2','16.7%'],['Total','12','100%']]},
+        ans:'Discrete quantitative data. The most common score is 9, with 4 of 12 students.' } },
+ { id:2, roman:'II',  title:'Measures of Central Tendency and Dispersion', a:3, b:4, hours:6,
+   subs:['Mean, Median, Mode','Range, Variance, Standard Deviation'],
+   outcomes:['Compute the measures of central tendency and dispersion.','Interpret statistical results.'],
+   assess:['Problem Set','Quiz'],
+   ex:{ prob:'Ten quiz scores: 12, 15, 11, 18, 15, 20, 14, 15, 17, 13. Find the mean, median, mode, range and sample standard deviation.',
+        steps:['Mean = Σx ÷ n = <code>150 ÷ 10 = 15</code>.',
+               'Sorted: 11, 12, 13, 14, 15, 15, 15, 17, 18, 20. The middle two values are both 15, so the median is <b>15</b>. The mode is <b>15</b> (three times).',
+               'Range = 20 − 11 = <b>9</b>.',
+               'Squared deviations from 15: 9, 0, 16, 9, 0, 25, 1, 0, 4, 4, which add to <code>68</code>.',
+               'Sample variance = 68 ÷ (10 − 1) = <code>7.556</code>, so s = √7.556 ≈ <b>2.75</b>.'],
+        ans:'Mean = median = mode = 15. A typical score is 15, give or take about 2.75 points.' } },
+ { id:3, roman:'III', title:'Probability', a:4, b:5, hours:5,
+   subs:['Basic Concepts','Probability Rules','Permutations and Combinations'],
+   outcomes:['Solve basic probability problems.','Apply counting techniques in probability.'],
+   assess:['Quiz','Seatwork'],
+   ex:{ prob:'A box holds 5 red and 3 blue marbles. Two marbles are drawn without replacement. What is the probability that both are red?',
+        steps:['First draw: P(red) = 5/8.',
+               'Second draw, with one red gone: P(red) = 4/7.',
+               'Multiply for “and”: <code>5/8 × 4/7 = 20/56 = 5/14</code>.',
+               'Check with counting: red pairs <code>5C2 = 10</code>, all pairs <code>8C2 = 28</code>, and 10 ÷ 28 = 5/14.'],
+        ans:'P(both red) = 5/14 ≈ 0.3571.' } },
+ { id:4, roman:'IV',  title:'Probability Distribution', a:5, b:6, hours:5,
+   subs:['Random Variable','Discrete and Continuous Distributions'],
+   outcomes:['Distinguish different probability distributions.','Solve simple probability distribution problems.'],
+   assess:['Long Quiz'],
+   ex:{ prob:'A 5-item quiz has 4 choices per item. A student guesses every item. Let X be the number correct. Find P(X = 2), the mean and the standard deviation.',
+        steps:['X is binomial with <code>n = 5</code> and <code>p = 0.25</code>.',
+               '<code>P(X = 2) = 5C2 (0.25)² (0.75)³ = 10 × 0.0625 × 0.421875</code>.',
+               'That gives <b>0.2637</b>.',
+               'Mean = np = 5 × 0.25 = <b>1.25</b>. SD = √(npq) = √(5 × 0.25 × 0.75) = √0.9375 ≈ <b>0.968</b>.'],
+        ans:'P(X = 2) ≈ 0.2637. Guessing gets about 1.25 items right on average.' } },
+ { id:5, roman:'V',   title:'Normal Distribution', a:8, b:8, hours:4,
+   subs:['Characteristics of the Normal Distribution','Standard Normal Distribution (Z-distribution)','Z-Scores and Standardization','Using the Standard Normal Table (Z-table)','Applications of the Normal Distribution'],
+   outcomes:['Describe the characteristics of the normal distribution.','Solve problems involving the standard normal distribution.'],
+   assess:['Quiz','Seatwork'],
+   ex:{ prob:'Exam scores are normal with μ = 75 and σ = 8. What proportion of students score above 85? What score marks the top 10%?',
+        steps:['Standardize: <code>z = (85 − 75) ÷ 8 = 1.25</code>.',
+               'From the Z-table, P(Z &lt; 1.25) = 0.8944, so P(Z &gt; 1.25) = 1 − 0.8944 = <b>0.1056</b>.',
+               'Top 10% means 90% lies below, so look for z with area 0.90: <code>z ≈ 1.28</code>.',
+               'Convert back: <code>x = μ + zσ = 75 + 1.28 × 8 ≈ 85.2</code>.'],
+        ans:'About 10.6% score above 85. A score of about 85.2 is needed to be in the top 10%.' } },
+ { id:6, roman:'VI',  title:'Sampling Distribution and Central Limit Theorem', a:9, b:9, hours:4,
+   subs:['Population and Sample','Sampling Distribution of the Sample Mean','Standard Error of the Mean','Central Limit Theorem (CLT)','Applications of Sampling Distribution'],
+   outcomes:['Explain the concept of sampling distribution.','Apply the Central Limit Theorem in solving statistical problems.'],
+   assess:['Quiz','Worksheet'],
+   ex:{ prob:'A population has μ = 60 and σ = 12. A random sample of n = 36 is taken. What is the probability that the sample mean is greater than 63?',
+        steps:['Because n = 36 is at least 30, the CLT says x̄ is approximately normal.',
+               'Standard error = σ ÷ √n = <code>12 ÷ 6 = 2</code>.',
+               '<code>z = (63 − 60) ÷ 2 = 1.5</code>.',
+               'P(Z &gt; 1.5) = 1 − 0.9332 = <b>0.0668</b>.'],
+        ans:'P(x̄ > 63) ≈ 0.0668, about a 6.7% chance.' } },
+ { id:7, roman:'VII', title:'Estimation and Hypothesis Testing', a:10, b:10, hours:4,
+   subs:['Point Estimation','Confidence Intervals','Margin of Error','Null and Alternative Hypotheses','Level of Significance (α)','p-value and Decision Rule','One-tailed and Two-tailed Tests'],
+   outcomes:['Estimate population parameters using confidence intervals.','Perform and interpret hypothesis testing.'],
+   assess:['Problem Set','Long Quiz'],
+   ex:{ prob:'A sample of n = 49 has mean 82 and standard deviation 14 (treat σ = 14 as known). Build a 95% confidence interval, then test H₀: μ = 80 against H₁: μ ≠ 80 at α = 0.05.',
+        steps:['Standard error = 14 ÷ √49 = <code>2</code>.',
+               'Margin of error = 1.96 × 2 = <b>3.92</b>, so the interval is 82 ± 3.92 = <b>(78.08, 85.92)</b>.',
+               'Test statistic: <code>z = (82 − 80) ÷ 2 = 1.00</code>.',
+               'Two-tailed p-value = 2 × (1 − 0.8413) ≈ <b>0.317</b>, which is greater than 0.05.'],
+        ans:'Fail to reject H₀. The data do not show that μ differs from 80, and 80 lies inside the interval.' } }
+];
+const SKILLS = ['Data presentation','Descriptive statistics','Counting techniques','Probability rules','Binomial and uniform models','Normal distribution','Central Limit Theorem','Confidence intervals','Hypothesis testing'];
+
+/* ---------- fill content ---------- */
+const P = PORTFOLIO;
+const orPh = (v, msg) => v && v.trim() ? esc(v) : `<span class="ph">${esc(msg)}</span>`;
+const names = P.members.map(m => m.name);
+const joinNames = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : (names[0] || '');
+const logoName = names.map(n => n.trim().split(/\s+/).slice(-1)[0]).join(' & ');
+const initials = n => { const w = n.trim().split(/\s+/); return (w[0][0] + (w.length > 1 ? w[w.length - 1][0] : '')).toUpperCase(); };
+document.title = (logoName ? logoName + ' · ' : '') + 'Statistics and Probability Portfolio';
+$('#logo-name').textContent = logoName || 'Portfolio';
+$('#hero-name').innerHTML = names.map(esc).join('<br>');
+$('#hero-section').textContent = P.section;
+$('#hero-school').textContent = P.school;
+$('#members').innerHTML = P.members.map(m => `<div class="member"><i>${esc(initials(m.name))}</i><div><b>${esc(m.name)}</b><span>${esc(P.section)}${m.role ? ' · ' + esc(m.role) : ''}</span></div></div>`).join('');
+$('#hero-eyebrow').textContent = 'Course portfolio · About 2 months';
+$('#about-text').innerHTML = orPh(P.about, 'Write a short introduction about yourselves in the about line of the PORTFOLIO block.');
+$('#facts').innerHTML = [['Course','Statistics and Probability'],['Program',P.section],['School',P.school]]
+  .map(([k,v]) => `<div><dt>${k}</dt><dd>${v ? esc(v) : '<span class="ph">Add your goal</span>'}</dd></div>`).join('');
+$('#closing-text').innerHTML = orPh(P.closing, 'Write 3 to 5 sentences about what you both learned across the whole course in the closing line of the PORTFOLIO block.');
+$('#skills').innerHTML = SKILLS.map(s => `<span>${s}</span>`).join('');
+$('#foot-name').textContent = joinNames;
+$('#foot-line').textContent = `Statistics and Probability · ${P.school}`;
+
+/* course map */
+(function buildMap(){
+  let h = '<div class="wk" style="text-align:left;padding-left:12px">Topic</div>' + Array.from({length:10},(_,i)=>`<div class="wk">W${i+1}</div>`).join('');
+  TOPICS.forEach((t, i) => {
+    const row = i + 2;
+    h += `<div class="lbl" style="grid-row:${row};grid-column:1"><b>${t.roman}</b><span title="${esc(t.title)}">${esc(t.title)}</span></div>`;
+    for (let w = 1; w <= 10; w++) h += `<div class="cell" style="grid-row:${row};grid-column:${w+1}"></div>`;
+    h += `<div class="span" style="grid-row:${row};grid-column:${t.a+1}/${t.b+2}">${t.hours} h</div>`;
+  });
+  h += '<div class="mid"><span>Midterm</span></div>';
+  $('#map').innerHTML = h;
+})();
+
+/* topic entries */
+$('#entries').innerHTML = TOPICS.map(t => {
+  const cfg = (P.topics && P.topics[t.id]) || {};
+  const wk = t.a === t.b ? `Week ${t.a}` : `Weeks ${t.a}–${t.b}`;
+  const ex = t.ex;
+  const tbl = ex.table ? `<div class="tbl"><table><thead><tr>${ex.table.h.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${ex.table.r.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
+  return `<article class="entry" id="topic-${t.id}">
+    <header class="e-head"><span class="roman">${t.roman}</span><div><h3>${esc(t.title)}</h3><p class="meta">${wk} · ${t.hours} hours</p></div></header>
+    <div class="e-grid">
+      <div>
+        <h4>Lessons covered</h4>
+        <ul class="lessons">${t.subs.map((s,i)=>`<li><span>${'ABCDEFG'[i]}</span>${esc(s)}</li>`).join('')}</ul>
+        <h4>By the end I can</h4>
+        <ol class="can">${t.outcomes.map(o=>`<li>${esc(o)}</li>`).join('')}</ol>
+        <h4>My reflection</h4>
+        <p class="reflect">${orPh(cfg.reflection, 'Write 2 or 3 sentences here: what was hardest, what finally made sense, and where you could use it.')}</p>
+        <h4>Evidence of learning</h4>
+        <ul class="evid">${(EVIDENCE[t.id] || []).map(([a, txt]) => `<li><b>${esc(a)}</b><span>${esc(txt)}</span></li>`).join('')}</ul>
+      </div>
+      <div>
+        <h4>Worked example</h4>
+        <div class="note-card">
+          <p class="prob">${ex.prob}</p>
+          <ol>${ex.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+          ${tbl}
+          <p class="ans">${ex.ans}</p>
+        </div>
+      </div>
+    </div>
+  </article>`;
+}).join('');
+
+/* ---------- curve drawing ---------- */
+function setup(c){
+  const dpr = window.devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight;
+  if (!w) return null;
+  if (c.width !== Math.round(w*dpr) || c.height !== Math.round(h*dpr)) { c.width = Math.round(w*dpr); c.height = Math.round(h*dpr); }
+  const g = c.getContext('2d'); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,w,h); return {g,w,h};
+}
+function curve(c, lo, hi, progress, opts){
+  const S = setup(c); if (!S) return; const {g,w,h} = S;
+  opts = opts || {};
+  const padB = opts.axis ? 30 : 26, padT = 8, padL = 0, padR = 0;
+  const X = z => padL + (z + 4) / 8 * (w - padL - padR), Y = y => padT + (h - padT - padB) * (1 - y / 0.42);
+  const pdf = z => Math.exp(-z*z/2) / Math.sqrt(2*Math.PI);
+  const zEnd = -4 + 8 * progress;
+  const a = Math.max(lo, -4), b = Math.min(hi, 4, zEnd);
+  if (b > a) { g.beginPath(); g.moveTo(X(a), Y(0)); for (let z = a; z < b; z += 0.02) g.lineTo(X(z), Y(pdf(z))); g.lineTo(X(b), Y(pdf(b))); g.lineTo(X(b), Y(0)); g.closePath(); g.fillStyle = cssVar('--curve-fill'); g.fill(); }
+  g.beginPath(); let first = true;
+  for (let z = -4; z <= zEnd + 1e-9; z += 0.02) { const x = X(z), y = Y(pdf(z)); if (first) { g.moveTo(x, y); first = false; } else g.lineTo(x, y); }
+  g.strokeStyle = cssVar('--curve'); g.lineWidth = 2.5; g.lineJoin = 'round'; g.stroke();
+  g.strokeStyle = cssVar('--line'); g.lineWidth = 1; g.beginPath(); g.moveTo(0, Y(0)); g.lineTo(w, Y(0)); g.stroke();
+  g.font = '11px JetBrains Mono, monospace'; g.textAlign = 'center'; g.fillStyle = cssVar('--muted');
+  for (let z = -3; z <= 3; z++) { g.beginPath(); g.moveTo(X(z), Y(0)); g.lineTo(X(z), Y(0) + 4); g.stroke(); g.fillText(opts.labels ? opts.labels(z) : (z < 0 ? '−' : '') + Math.abs(z) + 'σ', X(z), h - 10); }
+  if (opts.note && progress >= 1) { g.fillStyle = cssVar('--ink'); g.font = '500 13px JetBrains Mono, monospace'; g.fillText(opts.note, X(0), Y(0.2)); }
+}
+let heroP = 0, heroTimer = null;
+const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function drawHero(){ curve($('#hero-curve'), -1.96, 1.96, heroP, {note: 'middle 95%'}); }
+function animateHero(){
+  if (reduce) { heroP = 1; drawHero(); return; }
+  const t0 = performance.now(), dur = 1400;
+  (function step(now){ heroP = Math.min(1, (now - t0) / dur); heroP = 1 - Math.pow(1 - heroP, 3); drawHero(); if ((now - t0) < dur) requestAnimationFrame(step); else { heroP = 1; drawHero(); } })(t0);
+}
+
+/* ---------- quick tool ---------- */
+function runTool(){
+  const x = parseFloat($('#tl-x').value), mu = parseFloat($('#tl-mu').value), sd = parseFloat($('#tl-sd').value), out = $('#tl-out');
+  if (![x, mu, sd].every(isFinite) || !(sd > 0)) { out.innerHTML = '<p style="color:#B3261E">Enter x, μ and a positive σ.</p>'; return; }
+  const z = (x - mu) / sd, below = Phi(z);
+  out.innerHTML = `<div class="k"><span>z-score</span><b>${fmt(z,3)}</b></div><div><span>P(X &lt; x)</span><b>${fmt(below,4)}</b></div><div class="k"><span>P(X &gt; x)</span><b>${fmt(1-below,4)}</b></div>`;
+  curve($('#tl-curve'), z, Infinity, 1, {labels: k => fmt(mu + k*sd, 1)});
+}
+['tl-x','tl-mu','tl-sd'].forEach(id => $('#'+id).addEventListener('input', runTool));
+
+function redraw(){ drawHero(); runTool(); }
+window.addEventListener('resize', () => { clearTimeout(window.__rz); window.__rz = setTimeout(redraw, 100); });
+if (window.matchMedia) { const mq = window.matchMedia('(prefers-color-scheme: dark)'); if (mq.addEventListener) mq.addEventListener('change', redraw); }
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(redraw);
+animateHero(); runTool();
+</script>
+</body>
+</html>
